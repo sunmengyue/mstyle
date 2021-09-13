@@ -9,11 +9,11 @@ const orderSchema = mongoose.Schema(
     },
     orderItems: [
       {
-        name: { type: String, required: true },
+        title: { type: String, required: true },
         qty: { type: String, required: true },
         image: { type: String, required: true },
         price: { type: String, required: true },
-        product: {
+        product_id: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
           ref: 'Product',
@@ -58,7 +58,6 @@ const orderSchema = mongoose.Schema(
     },
     paidAt: {
       type: Date,
-      required: true,
     },
     isDelivered: {
       type: Boolean,
@@ -67,7 +66,6 @@ const orderSchema = mongoose.Schema(
     },
     deliveredAt: {
       type: Date,
-      required: true,
     },
   },
   { timeStamps: true },
