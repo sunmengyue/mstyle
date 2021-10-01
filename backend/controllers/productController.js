@@ -1,6 +1,38 @@
-import express from 'express';
 import asyncHandler from 'express-async-handler';
 import Product from '../models/productModel.js';
+
+class APIFeatures {
+  constructor(query, queryString) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+
+  filtering() {
+    const queryObj = { ...this.queryString }; // queryString = req.query
+
+    const excludedFields = ['page', 'sort', 'limit'];
+    excludedFields.forEach((el) => delete queryObj[el]);
+
+    let queryStr = JSON.stringify(queryObj);
+    queryStr = queryStr.replace(
+      /\b(gte|gt|lte|lt|regex)\b/g,
+      (match) => '$' + match,
+    );
+
+    this.query.find(JSON.parse(queryStr));
+    return this;
+  }
+
+  sorting() {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');
+      this.query = this.query.sort(sortBy);
+    } else {
+      this.query = this.query.sort('-createdAt');
+    }
+    return this;
+  }
+}
 
 // @desc Fetch all products
 // @route GET/api/products
@@ -31,7 +63,11 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const products = await Product.find({ ...keyword });
+  const features = new APIFeatures(Product.find({ ...keyword }), req.query)
+    .filtering()
+    .sorting();
+  const products = await features.query;
+
   res.json(products);
 });
 
