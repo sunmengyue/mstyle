@@ -48,12 +48,6 @@ const getProducts = asyncHandler(async (req, res) => {
             },
           },
           {
-            category: {
-              $regex: req.query.keyword,
-              $options: 'i',
-            },
-          },
-          {
             description: {
               $regex: req.query.keyword,
               $options: 'i',
@@ -63,7 +57,10 @@ const getProducts = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const features = new APIFeatures(Product.find({ ...keyword }), req.query)
+  const features = new APIFeatures(
+    Product.find({ $or: [{ ...keyword }, { category: req.query.category }] }),
+    req.query,
+  )
     .filtering()
     .sorting();
   const products = await features.query;
