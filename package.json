@@ -16,6 +16,9 @@
   "keywords": [
     "ecommerce"
   ],
+  "engines": {
+    "node": "v14.15.1"
+  },
   "author": "Simon Sun",
   "license": "MIT",
   "dependencies": {
