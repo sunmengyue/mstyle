@@ -1,0 +1,89 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .h1 {
+    @apply text-4xl uppercase tracking-widest;
+  }
+  .h2 {
+    @apply text-2xl uppercase tracking-widest;
+  }
+  .link {
+    @apply cursor-pointer hover:underline;
+  }
+
+  .disabled {
+    @apply text-gray-300;
+  }
+
+  .th {
+    @apply uppercase text-left p-2 border-r;
+  }
+
+  .td {
+    @apply text-left p-2 border-r;
+  }
+
+  .button {
+    @apply cursor-pointer bg-black py-2 px-4 text-white text-sm uppercase w-40 m-auto hover:bg-gray-800 md:text-base md:py-3 md:px-6;
+  }
+  .form__container {
+    @apply max-w-xl m-auto mt-10 space-y-7 tracking-widest p-5;
+  }
+  .form {
+    @apply flex flex-col space-y-3 items-start;
+  }
+  .form__field {
+    @apply flex flex-col w-full;
+  }
+
+  .form_label {
+    @apply mb-3;
+  }
+
+  .order_summary_item {
+    @apply p-5 flex justify-between items-center border-b;
+  }
+  .input {
+    @apply bg-gray-100 py-3 px-9 flex-grow tracking-wide focus:outline-none;
+  }
+  .error_msg {
+    @apply bg-red-300 text-red-900 h-1/5 font-semibold p-5 flex items-center;
+  }
+
+  .primary_msg {
+    @apply bg-blue-300 text-blue-900 h-1/5 font-semibold p-5 flex items-center;
+  }
+
+  .content {
+    @apply overflow-hidden max-h-0 transition-all ease-in-out;
+  }
+  .content.show {
+    @apply h-auto max-h-96 transition-all ease-in-out;
+  }
+}
+
+@layer utilities {
+  .w-280 {
+    width: 280px;
+  }
+  .h-280 {
+    height: 280px;
+  }
+  .h-450 {
+    height: 450px;
+  }
+  .h-300 {
+    height: 300px;
+  }
+  .loader div:first-child {
+    animation-delay: 0.1s;
+  }
+  .loader div:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .loader div:nth-child(3) {
+    animation-delay: 0.3s;
+  }
+}
