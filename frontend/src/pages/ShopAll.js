@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { AdjustmentsIcon } from '@heroicons/react/outline';
+//import { AdjustmentsIcon } from '@heroicons/react/outline';
 import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 import Product from '../components/Product';
 import Loader from '../components/Loader';
 import { listProducts } from '../actions/productActions';
-import Filters from '../components/Filters';
-import LargeFilters from '../components/LargeFilters';
+// import Filters from '../components/Filters';
+// import LargeFilters from '../components/LargeFilters';
 
 const ShopAll = ({ match }) => {
   const keyword = match.params.keyword;
@@ -15,14 +15,14 @@ const ShopAll = ({ match }) => {
   const { products, loading, error } = productList;
 
   const [sort, setSort] = useState('');
-  const [activated, setActivated] = useState(false);
+  // const [activated, setActivated] = useState(false);
 
-  const toggleFilters = () => {
-    if (activated) {
-      return setActivated(false);
-    }
-    setActivated(true);
-  };
+  // const toggleFilters = () => {
+  //   if (activated) {
+  //     return setActivated(false);
+  //   }
+  //   setActivated(true);
+  // };
 
   useEffect(() => {
     dispatch(listProducts(keyword, sort));

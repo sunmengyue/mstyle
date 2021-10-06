@@ -149,6 +149,20 @@ const PlaceOrder = ({ history }) => {
           </div>
         </div>
       </div>
+
+      {/* Comment */}
+      <div className="text-red-700">
+        For demo purpose, use either user's info below to log in{' '}
+        <span className="uppercase">paypal sandbox </span>:
+        <div className="my-3">
+          <p>user1: jane1234@example.com</p>
+          <p>password for user1: 0h/pLg-l</p>
+        </div>
+        <div>
+          <p>user2: sb-prcet8038993@personal.example.com</p>
+          <p>password for user2: (?G-RoM2 </p>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { listProducts } from '../actions/productActions';
 import { categories } from './filterContent';
-import { v4 as uuidv4 } from 'uuid';
 import { ChevronUpIcon } from '@heroicons/react/solid';
 import { ChevronDownIcon } from '@heroicons/react/solid';
 import { FormGroup } from '@mui/material';
@@ -10,7 +7,6 @@ import { Checkbox } from '@mui/material';
 import { FormControlLabel } from '@mui/material';
 
 const LargeFilters = () => {
-  const dispatch = useDispatch();
   const [selected, setSelected] = useState(false);
   const [checkedCategories, setCheckedCategories] = useState([]);
 

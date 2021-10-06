@@ -5,7 +5,7 @@ import FeaturedItems from '../components/FeaturedItems';
 import NewArrivals from '../components/NewArrivals';
 import Loader from '../components/Loader';
 
-const Home = ({}) => {
+const Home = () => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state) => state.productList);
