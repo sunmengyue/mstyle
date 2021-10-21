@@ -5,14 +5,13 @@ import Loader from '../components/Loader';
 import { login } from '../actions/userActions';
 
 const Login = ({ location, history }) => {
+  const redirect = location.search ? location.search.split('=')[1] : '/';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
-
-  const redirect = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
     if (userInfo) {
