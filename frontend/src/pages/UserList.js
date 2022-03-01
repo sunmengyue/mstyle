@@ -19,7 +19,7 @@ const UserList = () => {
   }, []);
   return (
     <div className="max-w-7xl m-auto p-5 md:flex md:justify-between">
-      <div className="flex-grow">
+      <div className="flex-grow overflow-auto">
         <h1 className="uppercase tracking-widest text-3xl mb-10">Users</h1>
         {loadingUsers ? (
           <Loader />

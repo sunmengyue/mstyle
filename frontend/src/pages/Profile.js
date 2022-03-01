@@ -1,17 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Loader from '../components/Loader';
-import { getUserDetails, updateUserProfile } from '../actions/userActions';
-import { listMyOrders } from '../actions/orderActions';
-import { useDispatch, useSelector } from 'react-redux';
-import { USER_UPDATE_PROFILE_RESET } from '../constants/userConstants';
-import { XIcon } from '@heroicons/react/solid';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Loader from "../components/Loader";
+import { getUserDetails, updateUserProfile } from "../actions/userActions";
+import { listMyOrders } from "../actions/orderActions";
+import { useDispatch, useSelector } from "react-redux";
+import { USER_UPDATE_PROFILE_RESET } from "../constants/userConstants";
+import { XIcon } from "@heroicons/react/solid";
 
 const Profile = ({ history }) => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const [message, setMessage] = useState(null);
 
   const dispatch = useDispatch();
@@ -30,11 +30,11 @@ const Profile = ({ history }) => {
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/login');
+      history.push("/login");
     } else {
       if (!user || !user.name || success) {
         dispatch({ type: USER_UPDATE_PROFILE_RESET });
-        dispatch(getUserDetails('profile'));
+        dispatch(getUserDetails("profile"));
         dispatch(listMyOrders());
       } else {
         setName(user.name);
@@ -46,7 +46,7 @@ const Profile = ({ history }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
-      setMessage('Passwords do not match');
+      setMessage("Passwords do not match");
     } else {
       dispatch(updateUserProfile({ id: user._id, name, password }));
     }
@@ -141,7 +141,7 @@ const Profile = ({ history }) => {
       </div>
 
       {/* right side table */}
-      <div className="flex-grow">
+      <div className="flex-grow overflow-auto">
         <h1 className="uppercase tracking-widest text-3xl mb-10">My orders</h1>
         {loadingOrders ? (
           <Loader />
