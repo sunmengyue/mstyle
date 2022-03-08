@@ -9,17 +9,24 @@ import {
   TrashIcon
 } from "@heroicons/react/solid";
 
-const UserList = () => {
+const UserList = ({ history }) => {
   const dispatch = useDispatch();
   const usersList = useSelector((state) => state.users);
   const { loading: loadingUsers, error: errorUsers, users } = usersList;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
-    dispatch(getusers());
-  }, []);
+    if (userInfo && userInfo.isAdmin) {
+      dispatch(getusers());
+    } else {
+      history.push("/login");
+    }
+  }, [dispatch, history]);
   return (
     <div className="max-w-7xl m-auto p-5 md:flex md:justify-between">
-      <div className="flex-grow overflow-auto">
+      <div className="flex-grow overflow-auto`">
         <h1 className="uppercase tracking-widest text-3xl mb-10">Users</h1>
         {loadingUsers ? (
           <Loader />

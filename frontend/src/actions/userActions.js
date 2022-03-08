@@ -15,7 +15,8 @@ import {
   USER_DETAILS_RESET,
   USER_LIST_REQUEST,
   USER_LIST_SUCCESS,
-  USER_LIST_FAIL
+  USER_LIST_FAIL,
+  USER_LIST_RESET
 } from "../constants/userConstants";
 import axios from "axios";
 import { ORDER_MY_LIST_RESET } from "../constants/orderConstants";
@@ -64,6 +65,7 @@ export const logout = () => (dispatch) => {
   dispatch({ type: USER_DETAILS_RESET });
   dispatch({ type: ORDER_MY_LIST_RESET });
   dispatch({ type: CART_CLEAR_ITEMS });
+  dispatch({ type: USER_LIST_RESET });
   localStorage.clear();
 };
 

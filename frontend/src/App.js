@@ -28,7 +28,7 @@ const App = () => {
       <Route path="/login" component={Login} />
       <Route path="/register" component={Register} />
       <Route path="/profile" component={Profile} />
-      <Route path="/users" component={UserList} />
+      <Route path="/admin/users" component={UserList} />
       <Route path="/products/:id" component={ProductDetail} />
       <Route path="/cart/:id?" component={Cart} />
       <Route exact path="/search/:keyword" component={ShopAll} />
