@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getusers } from "../actions/userActions";
+import { getusers, deleteUser } from "../actions/userActions";
 import Loader from "../components/Loader";
 import {
   PencilAltIcon,
@@ -17,13 +17,23 @@ const UserList = ({ history }) => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const userDelete = useSelector((state) => state.userDelete);
+  const { success: successDelete, error } = userDelete;
+
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
       dispatch(getusers());
     } else {
       history.push("/login");
     }
-  }, [dispatch, history]);
+  }, [dispatch, history, successDelete]);
+
+  const deleteHandler = (id) => {
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      dispatch(deleteUser(id));
+    }
+  };
+
   return (
     <div className="max-w-7xl m-auto p-5 md:flex md:justify-between">
       <div className="flex-grow overflow-auto`">
@@ -58,7 +68,10 @@ const UserList = ({ history }) => {
                   </td>
                   <td className="flex p-2 items-center">
                     <PencilAltIcon className="h-5 pr-2 cursor-pointer text-gray-400 hover:text-gray-600 ease-transform transition-colors ease-out" />
-                    <TrashIcon className="h-5 cursor-pointer text-red-300 hover:text-red-700 transform transition-colors ease-out" />
+                    <TrashIcon
+                      className="h-5 cursor-pointer text-red-300 hover:text-red-700 transform transition-colors ease-out"
+                      onClick={() => deleteHandler(user._id)}
+                    />
                   </td>
                 </tr>
               ))}

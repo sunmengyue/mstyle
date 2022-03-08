@@ -110,4 +110,26 @@ const getUsers = async (req, res) => {
   res.status(200).json(users);
 };
 
-export { authUser, getUserProfile, registerUser, updateUserProfile, getUsers };
+// @desc DELETE a user
+// @route DELETE/api/uesrs/:id
+// @acess Private
+
+const deleteUser = async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (user) {
+    await user.remove();
+    res.json("user removed");
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+};
+
+export {
+  authUser,
+  getUserProfile,
+  registerUser,
+  updateUserProfile,
+  getUsers,
+  deleteUser
+};
