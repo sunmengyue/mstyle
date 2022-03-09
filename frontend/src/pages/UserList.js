@@ -8,6 +8,7 @@ import {
   CheckIcon,
   TrashIcon
 } from "@heroicons/react/solid";
+import { Link } from "react-router-dom";
 
 const UserList = ({ history }) => {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ const UserList = ({ history }) => {
   const { userInfo } = userLogin;
 
   const userDelete = useSelector((state) => state.userDelete);
-  const { success: successDelete, error } = userDelete;
+  const { success: successDelete } = userDelete;
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -26,7 +27,7 @@ const UserList = ({ history }) => {
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, successDelete]);
+  }, [dispatch, history, successDelete, userInfo]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure you want to delete this user?")) {
@@ -67,7 +68,9 @@ const UserList = ({ history }) => {
                     )}
                   </td>
                   <td className="flex p-2 items-center">
-                    <PencilAltIcon className="h-5 pr-2 cursor-pointer text-gray-400 hover:text-gray-600 ease-transform transition-colors ease-out" />
+                    <Link to={`/admin/user/${user._id}/edit`}>
+                      <PencilAltIcon className="h-5 pr-2 cursor-pointer text-gray-400 hover:text-gray-600 ease-transform transition-colors ease-out" />
+                    </Link>
                     <TrashIcon
                       className="h-5 cursor-pointer text-red-300 hover:text-red-700 transform transition-colors ease-out"
                       onClick={() => deleteHandler(user._id)}

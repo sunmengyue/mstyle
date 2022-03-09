@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { PayPalButton } from 'react-paypal-button-v2';
-import { Link } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import Loader from '../components/Loader';
-import { getOrderDetails, payOrder } from '../actions/orderActions';
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { PayPalButton } from "react-paypal-button-v2";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import Loader from "../components/Loader";
+import { getOrderDetails, payOrder } from "../actions/orderActions";
+import { ORDER_PAY_RESET } from "../constants/orderConstants";
 
 const Order = ({ match, history }) => {
   const orderId = match.params.id;
@@ -28,20 +28,20 @@ const Order = ({ match, history }) => {
 
   if (!loading) {
     order.itemsPrice = keep2decimals(
-      order.orderItems.reduce((acc, cur) => acc + cur.price * cur.qty, 0),
+      order.orderItems.reduce((acc, cur) => acc + cur.price * cur.qty, 0)
     );
   }
 
   useEffect(() => {
     if (!userInfo) {
-      history.push('/login');
+      history.push("/login");
     }
 
     const addPayPalScript = async () => {
-      const { data: clientId } = await axios.get('/api/config/paypal');
+      const { data: clientId } = await axios.get("/api/config/paypal");
 
-      const script = document.createElement('script');
-      script.type = 'text/javascript';
+      const script = document.createElement("script");
+      script.type = "text/javascript";
       script.async = true;
       script.src = `https://www.paypal.com/sdk/js?client-id=${clientId}`;
       script.onload = () => {
@@ -60,7 +60,7 @@ const Order = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order, userInfo]);
+  }, [dispatch, orderId, successPay, order, userInfo, history]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult));
@@ -83,7 +83,7 @@ const Order = ({ match, history }) => {
                 <h2 className="h2 py-5">Shipping</h2>
                 <p>Name: {userInfo.name}</p>
                 <p>
-                  Email:{' '}
+                  Email:{" "}
                   <a
                     href={`mailto:${order.user.email}`}
                     className="hover:underline"
@@ -92,9 +92,9 @@ const Order = ({ match, history }) => {
                   </a>
                 </p>
                 <p className="py-5">
-                  Address: {order.shippingAddress.address},{' '}
-                  {order.shippingAddress.city},{' '}
-                  {order.shippingAddress.postalCode},{' '}
+                  Address: {order.shippingAddress.address},{" "}
+                  {order.shippingAddress.city},{" "}
+                  {order.shippingAddress.postalCode},{" "}
                   {order.shippingAddress.country}
                 </p>
                 {order.isDelivered ? (
@@ -169,7 +169,7 @@ const Order = ({ match, history }) => {
               </div>
               {!order.isPaid && (
                 <>
-                  {loadingPay && <Loader />}{' '}
+                  {loadingPay && <Loader />}{" "}
                   {!sdkReady ? (
                     <Loader />
                   ) : (

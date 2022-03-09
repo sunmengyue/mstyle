@@ -14,6 +14,7 @@ import Payment from "./pages/Payment";
 import PlaceOrder from "./pages/PlaceOrder";
 import Order from "./pages/Order";
 import UserList from "./pages/UserList";
+import UserEditScreen from "./pages/UserEditScreen";
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
       <Route path="/admin/users" component={UserList} />
       <Route path="/products/:id" component={ProductDetail} />
       <Route path="/cart/:id?" component={Cart} />
+      <Route path="/admin/user/:id/edit" component={UserEditScreen} />
       <Route exact path="/search/:keyword" component={ShopAll} />
       <Route exact path="/" component={Home} />
     </Router>
