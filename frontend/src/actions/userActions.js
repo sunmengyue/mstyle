@@ -129,7 +129,6 @@ export const getUserDetails = (id) => async (dispatch, getState) => {
 
     const config = {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`
       }
     };
@@ -211,7 +210,6 @@ export const getusers = () => async (dispatch, getState) => {
     } = getState();
     const config = {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`
       }
     };
@@ -244,7 +242,6 @@ export const deleteUser = (userId) => async (dispatch, getState) => {
     } = getState();
     const config = {
       headers: {
-        "Content-Type": "application/json",
         Authorization: `Bearer ${userInfo.token}`
       }
     };
@@ -285,7 +282,7 @@ export const updateUser = (user) => async (dispatch, getState) => {
     dispatch({
       type: USER_UPDATE_SUCCESS
     });
-    dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
+    // dispatch({ type: USER_DETAILS_SUCCESS, payload: data });
   } catch (error) {
     const message =
       error.response && error.response.data.message

@@ -1,17 +1,48 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { useHistory } from "react-router-dom";
 
-const MenuExpand = () => {
+const MenuExpand = ({ setExpandMenu, userInfo, logoutHandler }) => {
+  const history = useHistory();
+
+  const toShopAll = () => {
+    history.push("/shopAll");
+    setExpandMenu(false);
+  };
+  const toLogin = () => {
+    history.push("/login");
+    setExpandMenu(false);
+  };
+  const toProfile = () => {
+    history.push("/profile");
+    setExpandMenu(false);
+  };
+
   return (
     <ul className="bg-brown-light block md:hidden">
-      <Link to="/shopAll">
-        <li className="link tracking-wide py-3 border-gray-300 border-b border-t">
-          Shop All
+      <li className="tracking-wide py-3 border-gray-300 border-t text-center">
+        Welcome, {userInfo.name.toUpperCase()}
+      </li>
+      <li
+        className="link tracking-wide py-3 border-gray-300 border-b border-t"
+        onClick={toProfile}
+      >
+        Profile
+      </li>
+      <li
+        className="link tracking-wide py-3 border-gray-300 border-b"
+        onClick={toShopAll}
+      >
+        Shop All
+      </li>
+      {userInfo ? (
+        <li className="link tracking-wide pt-3 pb-6" onClick={logoutHandler}>
+          Sign out
         </li>
-      </Link>
-      <Link to="/login">
-        <li className="link tracking-wide pt-3 pb-6">Sign In</li>
-      </Link>
+      ) : (
+        <li className="link tracking-wide pt-3 pb-6" onClick={toLogin}>
+          Sign In
+        </li>
+      )}
     </ul>
   );
 };

@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { Link, useHistory } from 'react-router-dom';
-import Search from './Search';
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Search from "./Search";
 import {
   MenuIcon,
   SearchIcon,
   ShoppingBagIcon,
-  XIcon,
-} from '@heroicons/react/outline';
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid';
-import { logout } from '../actions/userActions';
-import MenuExpand from './MenuExpand';
+  XIcon
+} from "@heroicons/react/outline";
+import { ChevronDownIcon, ChevronUpIcon } from "@heroicons/react/solid";
+import { logout } from "../actions/userActions";
+import MenuExpand from "./MenuExpand";
 
 const Navbar = () => {
   const [showSearchBar, setShowSearchBar] = useState(false);
@@ -19,13 +19,12 @@ const Navbar = () => {
 
   const history = useHistory();
   const toCart = () => {
-    history.push('/cart');
+    history.push("/cart");
   };
 
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const cartItems = useSelector((state) => state.cart.cartItems);
-  // const order = useSelector((state) => state.orderDetails.order);
 
   const showCartItemsNo = () => {
     return cartItems ? cartItems.length : 0;
@@ -45,13 +44,18 @@ const Navbar = () => {
   };
 
   const toProfile = () => {
-    history.push('/profile');
+    history.push("/profile");
     setShowDropdown(false);
   };
   const logoutHandler = () => {
     dispatch(logout());
     setShowDropdown(false);
   };
+  const toAllUsers = () => {
+    history.push("/admin/users");
+    setShowDropdown(false);
+  };
+
   return (
     <div className="bg-brown-light px-10 top-0 sticky z-50">
       <nav className="py-5 ">
@@ -117,6 +121,11 @@ const Navbar = () => {
                 </li>
                 {showDropdown && (
                   <ul className="absolute mt-6 bg-brown-light p-5 space-y-4 ">
+                    {userInfo.isAdmin && (
+                      <li className="link" onClick={toAllUsers}>
+                        User List
+                      </li>
+                    )}
                     <li className="link" onClick={toProfile}>
                       Profile
                     </li>
@@ -145,7 +154,14 @@ const Navbar = () => {
           setShowSearchBar={setShowSearchBar}
         />
       )}
-      {expandMenu && <MenuExpand />}
+      {expandMenu && (
+        <MenuExpand
+          setExpandMenu={setExpandMenu}
+          userInfo={userInfo}
+          logoutHandler={logoutHandler}
+          toProfile={toProfile}
+        />
+      )}
     </div>
   );
 };

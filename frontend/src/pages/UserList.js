@@ -37,7 +37,7 @@ const UserList = ({ history }) => {
 
   return (
     <div className="max-w-7xl m-auto p-5 md:flex md:justify-between">
-      <div className="flex-grow overflow-auto`">
+      <div className="flex-grow overflow-auto">
         <h1 className="uppercase tracking-widest text-3xl mb-10">Users</h1>
         {loadingUsers ? (
           <Loader />
@@ -67,14 +67,18 @@ const UserList = ({ history }) => {
                       <XIcon className="h-5 text-red-700" />
                     )}
                   </td>
-                  <td className="flex p-2 items-center">
-                    <Link to={`/admin/user/${user._id}/edit`}>
-                      <PencilAltIcon className="h-5 pr-2 cursor-pointer text-gray-400 hover:text-gray-600 ease-transform transition-colors ease-out" />
-                    </Link>
-                    <TrashIcon
-                      className="h-5 cursor-pointer text-red-300 hover:text-red-700 transform transition-colors ease-out"
-                      onClick={() => deleteHandler(user._id)}
-                    />
+                  <td>
+                    {!user.isAdmin && (
+                      <div className="flex p-2 items-center">
+                        <Link to={`/admin/user/${user._id}/edit`}>
+                          <PencilAltIcon className="h-5 pr-2 cursor-pointer text-gray-400 hover:text-gray-600 ease-transform transition-colors ease-out" />
+                        </Link>
+                        <TrashIcon
+                          className="h-5 cursor-pointer text-red-300 hover:text-red-700 transform transition-colors ease-out"
+                          onClick={() => deleteHandler(user._id)}
+                        />
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
