@@ -130,9 +130,11 @@ const Navbar = () => {
                         User List
                       </li>
                     )}
-                    <li className="link" onClick={toProductList}>
-                      Product List
-                    </li>
+                    {userInfo.isAdmin && (
+                      <li className="link" onClick={toProductList}>
+                        Product List
+                      </li>
+                    )}
                     <li className="link" onClick={toProfile}>
                       Profile
                     </li>
