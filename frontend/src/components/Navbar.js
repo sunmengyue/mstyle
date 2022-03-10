@@ -55,6 +55,10 @@ const Navbar = () => {
     history.push("/admin/users");
     setShowDropdown(false);
   };
+  const toProductList = () => {
+    history.push("/admin/productList");
+    setShowDropdown(false);
+  };
 
   return (
     <div className="bg-brown-light px-10 top-0 sticky z-50">
@@ -126,6 +130,9 @@ const Navbar = () => {
                         User List
                       </li>
                     )}
+                    <li className="link" onClick={toProductList}>
+                      Product List
+                    </li>
                     <li className="link" onClick={toProfile}>
                       Profile
                     </li>
