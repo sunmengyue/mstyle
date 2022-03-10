@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listProducts } from "../actions/productActions";
+import { listProducts, deleteProduct } from "../actions/productActions";
 import Loader from "../components/Loader";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
@@ -9,6 +9,13 @@ const ProductAdminList = ({ history }) => {
   const dispatch = useDispatch();
   const productList = useSelector((state) => state.productList);
   const { loading, error, products } = productList;
+
+  const productDelete = useSelector((state) => state.productDelete);
+  const {
+    loading: productDeleteLoading,
+    success: productDeleteSuccess,
+    error: productDeleteError
+  } = productDelete;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -19,11 +26,11 @@ const ProductAdminList = ({ history }) => {
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo]);
+  }, [dispatch, history, userInfo, productDeleteSuccess]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
-      // delete product
+      dispatch(deleteProduct(id));
     }
   };
 
@@ -36,6 +43,10 @@ const ProductAdminList = ({ history }) => {
         <button className=" bg-black text-white uppercase tracking-widest py-3 px-9 mb-10">
           Create Product
         </button>
+        {productDeleteLoading && <Loader />}
+        {productDeleteError && (
+          <div className="error_msg">{productDeleteError}</div>
+        )}
         {loading ? (
           <Loader />
         ) : error ? (
