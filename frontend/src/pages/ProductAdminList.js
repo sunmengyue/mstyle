@@ -1,6 +1,11 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { listProducts, deleteProduct } from "../actions/productActions";
+import {
+  listProducts,
+  deleteProduct,
+  createProduct
+} from "../actions/productActions";
+import { PRODUCT_CREATE_RESET } from "../constants/productConstants";
 import Loader from "../components/Loader";
 import { PencilAltIcon, TrashIcon } from "@heroicons/react/solid";
 import { Link } from "react-router-dom";
@@ -17,21 +22,44 @@ const ProductAdminList = ({ history }) => {
     error: productDeleteError
   } = productDelete;
 
+  const productCreate = useSelector((state) => state.productCreate);
+  const {
+    loading: productCreateLoading,
+    success: productCreateSuccess,
+    error: productCreateError,
+    product: createdProduct
+  } = productCreate;
+
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
   useEffect(() => {
-    if (userInfo && userInfo.isAdmin) {
-      dispatch(listProducts());
-    } else {
+    dispatch({ type: PRODUCT_CREATE_RESET });
+    if (!userInfo.isAdmin) {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo, productDeleteSuccess]);
+    if (productCreateSuccess) {
+      history.push(`/admin/product/${createdProduct._id}/edit`);
+    } else {
+      dispatch(listProducts());
+    }
+  }, [
+    dispatch,
+    history,
+    userInfo,
+    productDeleteSuccess,
+    productCreateSuccess,
+    createdProduct
+  ]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
       dispatch(deleteProduct(id));
     }
+  };
+
+  const createHandler = () => {
+    dispatch(createProduct());
   };
 
   return (
@@ -40,12 +68,19 @@ const ProductAdminList = ({ history }) => {
         <h1 className="uppercase tracking-widest text-3xl my-7">
           Product List
         </h1>
-        <button className=" bg-black text-white uppercase tracking-widest py-3 px-9 mb-10">
+        <button
+          className=" bg-black text-white uppercase tracking-widest py-3 px-9 mb-10"
+          onClick={createHandler}
+        >
           Create Product
         </button>
         {productDeleteLoading && <Loader />}
         {productDeleteError && (
           <div className="error_msg">{productDeleteError}</div>
+        )}
+        {productCreateLoading && <Loader />}
+        {productCreateError && (
+          <div className="error_msg">{productCreateError}</div>
         )}
         {loading ? (
           <Loader />

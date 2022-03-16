@@ -39,14 +39,14 @@
   }
 
   .form_label {
-    @apply mb-3;
+    @apply mb-3 mt-3;
   }
 
   .order_summary_item {
     @apply p-5 flex justify-between items-center border-b;
   }
   .input {
-    @apply bg-gray-100 py-3 px-9 flex-grow tracking-wide focus:outline-none;
+    @apply bg-gray-100 py-3 px-9 flex-grow tracking-wide focus:outline-none mb-2;
   }
   .error_msg {
     @apply bg-red-300 text-red-900 h-1/5 font-semibold p-5 flex items-center;
@@ -78,12 +78,15 @@
     height: 300px;
   }
   .loader div:first-child {
+    -webkit-animation-delay: 0.1s;
     animation-delay: 0.1s;
   }
   .loader div:nth-child(2) {
+    -webkit-animation-delay: 0.2s;
     animation-delay: 0.2s;
   }
   .loader div:nth-child(3) {
+    -webkit-animation-delay: 0.3s;
     animation-delay: 0.3s;
   }
 }

@@ -83,7 +83,7 @@ const getProductById = asyncHandler(async (req, res) => {
 
 // @desc DELETE a single product
 // @route DELETE/api/products/:id
-// @acess Private
+// @acess Private/Admin
 const deleteProductById = asyncHandler(async (req, res) => {
   const product = await Product.findById(req.params.id);
   if (product) {
@@ -94,4 +94,49 @@ const deleteProductById = asyncHandler(async (req, res) => {
     throw new Error("Product not found");
   }
 });
-export { getProducts, getProductById, deleteProductById };
+
+// @desc Create a product
+// @route POST /api/products
+// @acess Private
+const createProduct = asyncHandler(async (req, res) => {
+  const product = new Product({
+    user: req.user._id,
+    title: "Example name",
+    image: "/images/sample.jpg",
+    category: "Example category",
+    description: "This is a new product",
+    price: 0,
+    countInStock: 0
+  });
+  const createdProduct = await product.save();
+  res.status(201).json(createdProduct);
+});
+
+// @desc Update a product by Id
+// @route PUT /api/products/:id
+// @acess Private/Admin
+const updateProduct = asyncHandler(async (req, res) => {
+  const { title, image, category, description, price, countInStock } = req.body;
+  const product = await Product.findById(req.params.id);
+  if (product) {
+    product.title = title;
+    product.image = image;
+    product.category = category;
+    product.description = description;
+    product.price = price;
+    product.countInStock = countInStock;
+    const newProduct = await product.save();
+    res.status(200).json(newProduct);
+  } else {
+    res.status(404);
+    throw new Error("Product does not exist");
+  }
+});
+
+export {
+  getProducts,
+  getProductById,
+  deleteProductById,
+  createProduct,
+  updateProduct
+};

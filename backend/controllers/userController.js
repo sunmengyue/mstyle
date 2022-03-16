@@ -103,7 +103,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 
 // @desc GET all users
 // @route GET/api/uesrs
-// @acess Private
+// @acess Private/Admin
 
 const getUsers = async (req, res) => {
   const users = await User.find({});
@@ -112,7 +112,7 @@ const getUsers = async (req, res) => {
 
 // @desc DELETE a user
 // @route DELETE/api/uesrs/:id
-// @acess Private
+// @acess Private/Admin
 
 const deleteUser = async (req, res) => {
   const user = await User.findById(req.params.id);
@@ -127,7 +127,7 @@ const deleteUser = async (req, res) => {
 
 // @desc GET a user by id
 // @route GET /api/uesrs/:id
-// @acess Private
+// @acess Private/Admin
 const getUserById = async (req, res) => {
   const user = await User.findById(req.params.id).select("-password");
   if (user) {
@@ -140,7 +140,7 @@ const getUserById = async (req, res) => {
 
 // @desc UPDATE a user
 // @route PUT /api/uesrs/:id
-// @acess Private
+// @acess Private/Admin
 const updateUser = async (req, res) => {
   const user = await User.findById(req.params.id);
   if (user) {
