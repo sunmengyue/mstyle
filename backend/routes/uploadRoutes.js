@@ -1,7 +1,6 @@
 import express from 'express';
 import multer from 'multer';
 import path from 'path';
-import { protect, isAdmin } from '../middleware/authMiddleware.js';
 import { uploadProductImage } from '../controllers/uploadController.js';
 
 const router = express.Router();
@@ -37,8 +36,6 @@ const upload = multer({
   }
 });
 
-router
-  .route('/')
-  .post(protect, isAdmin, upload.single('image'), uploadProductImage);
+router.route('/').post(upload.single('image'), uploadProductImage);
 
 export default router;
