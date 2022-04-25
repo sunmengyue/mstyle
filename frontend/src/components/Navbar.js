@@ -93,7 +93,7 @@ const Navbar = () => {
           <div className='cursor-pointer'>
             <h4 className='uppercase font-bold tracking-wider'>
               <Link to='/'>
-                <img src='/images/logo.png' />
+                <img src='/images/logo.png' height={40} />
               </Link>
             </h4>
           </div>
