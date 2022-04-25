@@ -17,7 +17,7 @@
     "ecommerce"
   ],
   "engines": {
-    "node": ">=12.19.0"
+    "node": "16.x"
   },
   "author": "Simon Sun",
   "license": "MIT",
