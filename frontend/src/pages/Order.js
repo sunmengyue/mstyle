@@ -4,8 +4,15 @@ import { PayPalButton } from 'react-paypal-button-v2';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
-import { getOrderDetails, payOrder } from '../actions/orderActions';
-import { ORDER_PAY_RESET } from '../constants/orderConstants';
+import {
+  getOrderDetails,
+  payOrder,
+  deliverOrder
+} from '../actions/orderActions';
+import {
+  ORDER_PAY_RESET,
+  ORDER_DELIVER_RESET
+} from '../constants/orderConstants';
 
 const Order = ({ match, history }) => {
   const orderId = match.params.id;
@@ -18,6 +25,9 @@ const Order = ({ match, history }) => {
 
   const orderPay = useSelector((state) => state.orderPay);
   const { loading: loadingPay, success: successPay } = orderPay;
+
+  const orderDeliver = useSelector((state) => state.orderDeliver);
+  const { loading: loadingDeliver, success: successDeliver } = orderDeliver;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -50,8 +60,9 @@ const Order = ({ match, history }) => {
       document.body.appendChild(script);
     };
 
-    if (!order || successPay || order._id !== orderId) {
+    if (!order || successPay || order._id !== orderId || successDeliver) {
       dispatch({ type: ORDER_PAY_RESET });
+      dispatch({ type: ORDER_DELIVER_RESET });
       dispatch(getOrderDetails(orderId));
     } else if (!order.isPaid) {
       if (!window.paypal) {
@@ -60,10 +71,14 @@ const Order = ({ match, history }) => {
         setSdkReady(true);
       }
     }
-  }, [dispatch, orderId, successPay, order, userInfo, history]);
+  }, [dispatch, orderId, successPay, successDeliver, order, userInfo, history]);
 
   const successPaymentHandler = (paymentResult) => {
     dispatch(payOrder(orderId, paymentResult));
+  };
+
+  const deliverHandler = () => {
+    dispatch(deliverOrder(order));
   };
 
   return loading ? (
@@ -81,7 +96,9 @@ const Order = ({ match, history }) => {
             <div className='flex-grow flex flex-col mb-8 md:w-1/2'>
               <div className='border-b'>
                 <h2 className='h2 py-5'>Shipping</h2>
-                {userInfo.email === 'jane@example.com' ? (
+                {(userInfo?.email === 'jane@example.com' ||
+                  userInfo?.email === 'admin@example.com') &&
+                !order.isDelivered ? (
                   <div className='text-red-700'>
                     For demo purpose, copy the info below to log in
                     <span className='uppercase'>paypal sandbox </span>:
@@ -92,7 +109,7 @@ const Order = ({ match, history }) => {
                   </div>
                 ) : (
                   <div>
-                    <p>Name: {userInfo.name}</p>
+                    <p>Name: {userInfo?.name}</p>
                     <p>
                       Email:{' '}
                       <a
@@ -193,6 +210,14 @@ const Order = ({ match, history }) => {
                     />
                   )}
                 </>
+              )}
+              {userInfo?.isAdmin && order.isPaid && !order.isDelivered && (
+                <button
+                  onClick={deliverHandler}
+                  className='bg-black text-white uppercase tracking-widest py-3 px-9'
+                >
+                  Mark as Delivered
+                </button>
               )}
             </div>
           </div>
